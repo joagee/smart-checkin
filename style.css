@@ -1,0 +1,366 @@
+:root {
+    --primary-color: #07c160; /* WeChat Green */
+    --danger-color: #fa5151;
+    --text-main: #333;
+    --text-sub: #888;
+    --bg-color: #f7f7f7;
+    --card-bg: #fff;
+    --border-color: #eee;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    position: relative;
+}
+
+/* Header */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #fff;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stats {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.icon-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.icon-btn.primary {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+}
+
+/* Search Bar */
+.search-bar-container {
+    padding: 10px 16px;
+    background: #fff;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.search-icon {
+    color: #999;
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+#input-search {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    outline: none;
+    padding: 0;
+    color: var(--text-main);
+}
+
+#btn-clear-search {
+    background: #ccc;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+#btn-clear-search.hidden {
+    display: none;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky; /* 吸顶效果 */
+    top: 0;
+    z-index: 10;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 14px 0;
+    font-size: 16px;
+    color: var(--text-sub);
+    cursor: pointer;
+    position: relative;
+}
+
+.tab.active {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 3px 3px 0 0;
+}
+
+/* Content Area */
+.content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background: var(--bg-color);
+}
+
+.student-list {
+    display: none;
+}
+
+.student-list.active {
+    display: block;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-sub);
+}
+
+/* Cards */
+.card {
+    background: var(--card-bg);
+    padding: 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.1s;
+    user-select: none;
+}
+
+.card:active {
+    transform: scale(0.98);
+    background: #f0f0f0;
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-name {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.card-meta {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 4px;
+}
+
+.card-action {
+    font-size: 24px;
+    color: var(--text-sub);
+}
+
+.card.leave-card {
+    border-left: 4px solid orange;
+}
+
+.card.signed-card {
+    border-left: 4px solid var(--primary-color);
+    opacity: 0.8;
+}
+
+/* Floating Action Button (Removed) */
+/* .floating-action { ... } */
+
+/* Modals */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.2s;
+}
+
+.modal.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Bottom Sheet Style */
+.modal.bottom-sheet {
+    align-items: flex-end;
+}
+
+.modal.bottom-sheet .modal-content {
+    border-radius: 12px 12px 0 0;
+    width: 100%;
+    max-width: 600px; /* match container */
+    margin: 0 auto;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+.modal-content {
+    background: #fff;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 12px;
+    padding: 20px;
+    animation: popIn 0.2s ease-out;
+}
+
+.full-width {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal h3 {
+    margin-bottom: 10px;
+}
+
+.hint {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    resize: none;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.modal-actions button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.menu-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    text-align: left;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.menu-btn.danger {
+    color: var(--danger-color);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}

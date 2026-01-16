@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>智能签到登记助手</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/tiny-pinyin@1.3.2/dist/tiny-pinyin.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部统计与操作栏 -->
+        <header class="top-bar">
+            <div class="stats">
+                <span id="stats-text">待签 0 人</span>
+            </div>
+            <div class="actions">
+                <button id="btn-add" class="icon-btn primary">➕ 新增</button>
+                <button id="btn-more" class="icon-btn">⚙️</button>
+            </div>
+        </header>
+
+        <!-- 搜索栏 (仅在待签到页显示) -->
+        <div id="search-bar-container" class="search-bar-container">
+            <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="input-search" placeholder="输入姓名快速查找..." autocomplete="off">
+                <button id="btn-clear-search" class="hidden">✕</button>
+            </div>
+        </div>
+
+        <!-- 标签页导航 -->
+        <nav class="tabs">
+            <div class="tab active" data-tab="pending">待签到</div>
+            <div class="tab" data-tab="signed">已签到</div>
+            <div class="tab" data-tab="leave">请假中</div>
+        </nav>
+
+        <!-- 列表内容区 -->
+        <main class="content-area">
+            <div id="list-pending" class="student-list active">
+                <!-- 待签到列表项将在这里生成 -->
+                <div class="empty-state">暂无待签人员</div>
+            </div>
+            <div id="list-signed" class="student-list">
+                <!-- 已签到列表项 -->
+            </div>
+            <div id="list-leave" class="student-list">
+                <!-- 请假列表项 -->
+            </div>
+        </main>
+    </div>
+
+    <!-- 底部滑出菜单 (更多操作) -->
+    <div id="modal-more" class="modal bottom-sheet hidden">
+        <div class="modal-content sheet-content">
+            <h3>更多操作</h3>
+            <button class="menu-btn" id="btn-export">📤 导出名单 (交接班)</button>
+            <button class="menu-btn" id="btn-reset">🔄 开启新一轮签到</button>
+            <div class="modal-actions">
+                <button class="btn-cancel full-width">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗：新增/导入 -->
+    <div id="modal-add" class="modal hidden">
+        <div class="modal-content">
+            <h3>📝 新增/导入名单</h3>
+            <p class="hint">直接粘贴名单，支持自动识别请假状态。<br>例：张三, 李四(请假:2023-10-27~2023-10-28)</p>
+            <textarea id="input-names" placeholder="在此粘贴名单..."></textarea>
+            <div class="modal-actions">
+                <button class="btn-cancel">取消</button>
+                <button id="btn-confirm-add" class="btn-primary">确认导入</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗：导出 -->
+    <div id="modal-export" class="modal hidden">
+        <div class="modal-content">
+            <h3>📤 导出名单</h3>
+            <p class="hint">复制下方内容发送给交接人员：</p>
+            <textarea id="output-export" readonly></textarea>
+            <div class="modal-actions">
+                <button class="btn-cancel">关闭</button>
+                <button id="btn-copy-export" class="btn-primary">复制全部</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗：操作菜单 (长按触发) -->
+    <div id="modal-menu" class="modal hidden">
+        <div class="modal-content menu-content">
+            <h3 id="menu-student-name">人员姓名</h3>
+            <button class="menu-btn" id="btn-mark-leave">📅 请假/销假</button>
+            <button class="menu-btn danger" id="btn-delete">🗑️ 删除人员</button>
+            <div class="modal-actions">
+                <button class="btn-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗：请假设置 -->
+    <div id="modal-leave" class="modal hidden">
+        <div class="modal-content">
+            <h3>📅 设置请假</h3>
+            <div class="form-group">
+                <label>开始日期：</label>
+                <input type="date" id="leave-start">
+            </div>
+            <div class="form-group">
+                <label>结束日期：</label>
+                <input type="date" id="leave-end">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel">取消</button>
+                <button id="btn-confirm-leave" class="btn-primary">确认请假</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
