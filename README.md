@@ -36,6 +36,7 @@ style.css    样式
 - 纯原生 HTML / CSS / JavaScript，无构建步骤、无框架
 - 拼音首字母依赖 CDN 上的 [tiny-pinyin](https://cdn.jsdelivr.net/npm/tiny-pinyin@1.3.2/dist/tiny-pinyin.js)，加载失败时回退到本地简易映射
 - 数据均存储在浏览器本地，清除浏览器数据会导致名单丢失，请注意用「导出名单」备份
+- GitHub Pages 对静态资源有 10 分钟缓存，`index.html` 通过 `script.js?v=N` 的版本号强制刷新脚本；修改 `script.js` 后请把版本号加一
 
 ## 在线地址
 
