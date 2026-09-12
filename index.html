@@ -94,6 +94,7 @@
         <div class="modal-content menu-content">
             <h3 id="menu-student-name">人员姓名</h3>
             <button class="menu-btn" id="btn-mark-leave">📅 请假/销假</button>
+            <button class="menu-btn" id="btn-rename">✏️ 修改名单</button>
             <button class="menu-btn danger" id="btn-delete">🗑️ 删除人员</button>
             <div class="modal-actions">
                 <button class="btn-cancel">取消</button>
@@ -116,6 +117,21 @@
             <div class="modal-actions">
                 <button class="btn-cancel">取消</button>
                 <button id="btn-confirm-leave" class="btn-primary">确认请假</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗：修改名单 -->
+    <div id="modal-rename" class="modal hidden">
+        <div class="modal-content">
+            <h3>✏️ 修改名单</h3>
+            <div class="form-group">
+                <label>新姓名：</label>
+                <input type="text" id="input-rename" placeholder="输入新的姓名" autocomplete="off">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel">取消</button>
+                <button id="btn-confirm-rename" class="btn-primary">确认修改</button>
             </div>
         </div>
     </div>

@@ -50,6 +50,32 @@ const DataManager = {
         localStorage.setItem('students', JSON.stringify(students));
     },
 
+    // 修改学生姓名 (同步更新签到记录与请假记录)
+    renameStudent(oldName, newName) {
+        const cleanName = newName.trim();
+        if (!cleanName || cleanName === oldName) return false;
+        const students = this.getStudents();
+        if (students.some(s => s.name === cleanName)) return false;
+
+        const updated = students.map(s => {
+            if (s.name === oldName) {
+                return { ...s, name: cleanName, initials: this.computeInitials(cleanName) };
+            }
+            return s;
+        });
+        localStorage.setItem('students', JSON.stringify(updated));
+
+        const logs = JSON.parse(localStorage.getItem('logs'));
+        logs.forEach(l => { if (l.name === oldName) l.name = cleanName; });
+        localStorage.setItem('logs', JSON.stringify(logs));
+
+        const leaves = JSON.parse(localStorage.getItem('leaves'));
+        leaves.forEach(l => { if (l.name === oldName) l.name = cleanName; });
+        localStorage.setItem('leaves', JSON.stringify(leaves));
+
+        return true;
+    },
+
     // 签到
     signIn(name) {
         const logs = JSON.parse(localStorage.getItem('logs'));
@@ -307,6 +333,25 @@ const App = {
             tomorrow.setDate(tomorrow.getDate() + 1);
             document.getElementById('leave-start').value = today.toISOString().split('T')[0];
             document.getElementById('leave-end').value = tomorrow.toISOString().split('T')[0];
+        };
+
+        // 修改名单
+        document.getElementById('btn-rename').onclick = () => {
+            document.getElementById('modal-menu').classList.add('hidden');
+            const input = document.getElementById('input-rename');
+            input.value = this.selectedStudent;
+            this.showModal('modal-rename');
+            input.focus();
+        };
+
+        document.getElementById('btn-confirm-rename').onclick = () => {
+            const newName = document.getElementById('input-rename').value;
+            if (DataManager.renameStudent(this.selectedStudent, newName)) {
+                document.getElementById('modal-rename').classList.add('hidden');
+                this.render();
+            } else {
+                alert('修改失败：姓名不能为空、与原名相同或已存在同名人员');
+            }
         };
 
         // 确认请假
